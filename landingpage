@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <title>Utama</title>
+  <style>
+    body, html {
+      margin: 0;
+      padding: 0;
+      height: 100%;
+      overflow: hidden;
+      font-family: Arial, sans-serif;
+    }
+
+    /* Gambar background penuh layar */
+    .bg {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: url("wall.png") no-repeat center center/cover;
+      z-index: -1;
+    }
+
+    /* Container tombol */
+    .buttons {
+      position: absolute;
+      bottom: 30px;
+      width: 100%;
+      display: flex;
+      justify-content: center;
+      gap: 30px;
+    }
+
+    .buttons a {
+      text-decoration: none;
+      padding: 15px 40px;
+      background: rgba(8, 167, 216, 0.8);
+      color: white;
+      font-size: 20px;
+      font-weight: bold;
+      border-radius: 10px;
+      transition: 0.3s;
+    }
+
+    .buttons a:hover {
+      background: rgba(255, 0, 0, 1);
+      transform: scale(1.1);
+    }
+  </style>
+</head>
+<body>
+  <!-- Background -->
+  <div class="bg"></div>
+
+  <!-- Tombol navigasi -->
+  <div class="buttons">
+    <a href="LAYAR.html">Layar</a>
+    <a href="GAME.html">Game</a>
+    <a href="UNDIAN/undianRT03.html">Undian</a>
+  </div>
+</body>
+</html>
