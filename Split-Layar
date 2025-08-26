@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <title>Display Multimedia</title>
+  <style>
+    body {
+      margin: 0;
+      background: black;
+      color: white;
+      font-family: Arial, sans-serif;
+      overflow: hidden;
+    }
+    .container {
+      display: flex;
+      height: calc(100vh - 100px);
+    }
+    .left {
+      flex: 1;
+      background: black;
+    }
+    .left video {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+    .right {
+      width: 400px;
+      background: black;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .right img {
+      max-width: 100%;
+      max-height: 100%;
+    }
+    .bottom {
+      height: 60px;
+      background: black;
+      color: white;
+      display: flex;
+      align-items: center;
+      overflow: hidden;
+      white-space: nowrap;
+      position: relative;
+    }
+    .scroll-text {
+      position: absolute;
+      white-space: nowrap;
+      animation: scroll-left 40s linear infinite; /* ubah durasi biar lebih lambat */
+      font-size: 24px;
+      font-weight: bold;
+    }
+    @keyframes scroll-left {
+      from { transform: translateX(100%); }
+      to { transform: translateX(-100%); }
+    }
+    .controls {
+      height: 40px;
+      background: #222;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 10px;
+    }
+    .controls button {
+      padding: 6px 14px;
+      font-size: 16px;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+      background: #444;
+      color: white;
+    }
+    .controls button:hover {
+      background: #666;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <!-- VIDEO -->
+    <div class="left">
+      <video id="videoPlayer" autoplay></video>
+    </div>
+
+    <!-- GAMBAR -->
+    <div class="right">
+      <img id="slideshow" src="" alt="slideshow">
+    </div>
+  </div>
+
+  <!-- TEXT BERJALAN -->
+  <div class="bottom">
+    <div class="scroll-text" id="runningText">
+      DIRGAHAYU REPUBLIK INDONESIA KE-80 ! WARGA RT 003/RW 09 BETING ASEM SEMPER BARAT - SALAM MERDEKA! &nbsp;&nbsp;
+    </div>
+  </div>
+
+  <!-- KONTROL -->
+  <div class="controls">
+    <button id="playPause">Pause</button>
+    <button id="muteBtn">Mute</button>
+    <button id="nextVideo">Next Video</button>
+    <button id="fullscreenBtn">Fullscreen</button>
+    <button id="linkBtn">Ke Utama</button> <!-- 🔗 tombol tambahan -->
+  </div>
+
+  <script>
+    // ----------------- VIDEO -----------------
+    const videoFiles = ["video1.mp4", "video2.mp4", "video3.mp4"];
+    let videoIndex = 0;
+    const videoPlayer = document.getElementById("videoPlayer");
+
+    function playVideo(index) {
+      videoPlayer.src = videoFiles[index];
+      videoPlayer.play();
+    }
+
+    videoPlayer.addEventListener("ended", () => {
+      videoIndex = (videoIndex + 1) % videoFiles.length;
+      playVideo(videoIndex);
+    });
+
+    playVideo(videoIndex);
+
+    // ----------------- SLIDESHOW GAMBAR (PNG) -----------------
+    const imageFiles = ["gambar1.png", "gambar2.png", "gambar3.png"];
+    let imgIndex = 0;
+    const slideshow = document.getElementById("slideshow");
+
+    function showImage() {
+      slideshow.src = imageFiles[imgIndex];
+      imgIndex = (imgIndex + 1) % imageFiles.length;
+    }
+
+    showImage();
+    setInterval(showImage, 5000); // ganti tiap 5 detik
+
+    // ----------------- TEXT BERJALAN -----------------
+    const runningText = document.getElementById("runningText");
+    runningText.innerHTML = runningText.innerHTML.repeat(5);
+
+    // ----------------- KONTROL -----------------
+    const playPauseBtn = document.getElementById("playPause");
+    const muteBtn = document.getElementById("muteBtn");
+    const nextBtn = document.getElementById("nextVideo");
+    const fullscreenBtn = document.getElementById("fullscreenBtn");
+    const linkBtn = document.getElementById("linkBtn");
+
+    // Play / Pause
+    playPauseBtn.addEventListener("click", () => {
+      if (videoPlayer.paused) {
+        videoPlayer.play();
+        playPauseBtn.textContent = "Pause";
+      } else {
+        videoPlayer.pause();
+        playPauseBtn.textContent = "Play";
+      }
+    });
+
+    // Mute / Unmute
+    muteBtn.addEventListener("click", () => {
+      videoPlayer.muted = !videoPlayer.muted;
+      muteBtn.textContent = videoPlayer.muted ? "Unmute" : "Mute";
+    });
+
+    // Next Video
+    nextBtn.addEventListener("click", () => {
+      videoIndex = (videoIndex + 1) % videoFiles.length;
+      playVideo(videoIndex);
+    });
+
+    // Fullscreen
+    fullscreenBtn.addEventListener("click", () => {
+      if (!document.fullscreenElement) {
+        document.documentElement.requestFullscreen();
+      } else {
+        document.exitFullscreen();
+      }
+    });
+
+    // Tombol Link ke utama.html
+    linkBtn.addEventListener("click", () => {
+      window.location.href = "utama.html";
+    });
+  </script>
+</body>
+</html>
