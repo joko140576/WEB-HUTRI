@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html lang="id">
+
+<head>
+    <meta charset="UTF-8">
+    <title>6 Kotak Warna-Warni Pertanyaan</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', sans-serif;
+            background: #f9f9f9;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 30px;
+        }
+
+        header img {
+            width: 100%;
+            max-width: 1200px;
+            border-radius: 16px;
+            margin-bottom: 30px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+        }
+
+        .container {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 25px;
+        }
+
+        .box {
+            width: 180px;
+            height: 180px;
+            color: white;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            border-radius: 16px;
+            cursor: pointer;
+            font-size: 22px;
+            transition: transform 0.2s;
+            font-weight: bold;
+        }
+
+        .box:hover {
+            transform: scale(1.07);
+            opacity: 0.9;
+        }
+
+        .question-box {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: white;
+            padding: 40px;
+            border-radius: 16px;
+            box-shadow: 0 0 15px rgba(0, 0, 0, 0.3);
+            display: none;
+            z-index: 999;
+            width: 400px;
+            text-align: center;
+        }
+
+        .question-box p {
+            font-size: 22px;
+            margin-bottom: 20px;
+            font-weight: bold;
+        }
+
+        .question-box .answer {
+            font-size: 20px;
+            margin-top: 15px;
+            color: red;
+            display: none;
+        }
+
+        .question-box button {
+            padding: 12px 18px;
+            margin: 5px;
+            border: none;
+            background: #4CAF50;
+            color: white;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 16px;
+            font-weight: bold;
+        }
+
+        .question-box button:hover {
+            opacity: 0.9;
+        }
+
+        .overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.5);
+            display: none;
+            z-index: 998;
+        }
+
+        /* Warna-warna unik untuk masing-masing kotak */
+        .box-1 {
+            background-color: #e74c3c;
+        }
+
+        /* Merah */
+        .box-2 {
+            background-color: #3498db;
+        }
+
+        /* Biru */
+        .box-3 {
+            background-color: #f1c40f;
+            color: #333;
+        }
+
+        /* Kuning */
+        .box-4 {
+            background-color: #2ecc71;
+        }
+
+        /* Hijau */
+        .box-5 {
+            background-color: #9b59b6;
+        }
+
+        /* Ungu */
+        .box-6 {
+            background-color: #e67e22;
+        }
+
+        /* Oranye */
+    </style>
+</head>
+
+<body>
+
+    <header>
+        <!-- Ganti src dengan gambar Anda -->
+        <img src="image.png" alt="Header">
+    </header>
+
+    <div class="overlay" id="overlay" onclick="closeBox()"></div>
+    <div class="question-box" id="questionBox">
+        <p id="questionText">Pertanyaan muncul di sini</p>
+        <button onclick="showAnswer()">Jawab</button>
+        <button onclick="closeBox()">Tutup</button>
+        <p class="answer" id="answerText"></p>
+    </div>
+
+    <!-- 6 Kotak Warna-warni -->
+    <div class="container">
+        <div class="box box-1" onclick="showQuestion(0)">Kotak 1</div>
+        <div class="box box-2" onclick="showQuestion(1)">Kotak 2</div>
+        <div class="box box-3" onclick="showQuestion(2)">Kotak 3</div>
+        <div class="box box-4" onclick="showQuestion(3)">Kotak 4</div>
+        <div class="box box-5" onclick="showQuestion(4)">Kotak 5</div>
+        <div class="box box-6" onclick="showQuestion(5)">Kotak 6</div>
+    </div>
+
+    <script>
+        const questions = [
+            "Siapakah nama Presiden ke 4 Republik indonesia ?",
+            "sebutkan sila ke 4 pancasila ?",
+            "Siapakah yang memiliki gelar Panglima besar zaman penjajahan dulu ?",
+            "Apa singkatan dari KPK ?",
+            "Sebutkan 5 Pahlawan Nasional ?",
+            "Siapa yang membuat buku habis gelap terbitlah terang ?"
+        ];
+
+        const answers = [
+            "Alm Abdurahman Wahid alias Gusdur",
+            "Kerakyatan yg dipimpin oleh hikmat kebijaksanaan dalam permusyawaratan & perwakilan",
+            "Jendral Soedirman ",
+            "Komisi Pemberantasan Korupsi ",
+            "teuku umar, imam bonjol,sisingamangaraja ,diponegoro,sultan hasanudin,patimura",
+            " RA Kartini "
+        ];
+
+        let currentIndex = null;
+
+        function showQuestion(index) {
+            currentIndex = index;
+            document.getElementById("questionText").innerText = questions[index];
+            document.getElementById("answerText").style.display = "none";
+            document.getElementById("questionBox").style.display = "block";
+            document.getElementById("overlay").style.display = "block";
+        }
+
+        function showAnswer() {
+            if (currentIndex !== null) {
+                const answerElement = document.getElementById("answerText");
+                answerElement.innerText = answers[currentIndex];
+                answerElement.style.display = "block";
+            }
+        }
+
+        function closeBox() {
+            document.getElementById("questionBox").style.display = "none";
+            document.getElementById("overlay").style.display = "none";
+        }
+    </script>
+
+</body>
+
+</html>
