@@ -1,0 +1,227 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Game Puzzle 10 Soal</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: #f0f0f0;
+      margin: 0;
+      padding: 0;
+      display: flex;
+      justify-content: center;
+      align-items: flex-start;
+      min-height: 100vh;
+    }
+
+    .container {
+      text-align: center;
+      margin-top: 30px;
+    }
+
+    #puzzle {
+      display: grid;
+      grid-template-columns: repeat(3, 100px);
+      grid-template-rows: repeat(3, 100px);
+      gap: 2px;
+      margin: 20px auto;
+    }
+
+    .tile {
+      position: relative;
+      width: 100px;
+      height: 100px;
+      background-size: 300px 300px;
+      border: 1px solid #ccc;
+      cursor: pointer;
+    }
+
+    .tile-number {
+      position: absolute;
+      top: 5px;
+      left: 5px;
+      background: rgba(255, 255, 255, 0.7);
+      color: #000;
+      padding: 2px 6px;
+      font-size: 16px;
+      border-radius: 4px;
+      font-weight: bold;
+    }
+
+    #question {
+      font-weight: bold;
+      font-size: 18px;
+      margin-top: 20px;
+    }
+
+    #navigation {
+      margin-top: 20px;
+    }
+
+    #counter {
+      margin-bottom: 10px;
+      font-weight: bold;
+    }
+
+    #finalImages {
+      display: none;
+      margin-top: 30px;
+    }
+
+    .reference-full {
+      width: 150px;
+      height: auto;
+      border: 3px solid #666;
+      margin: 10px;
+    }
+
+    .final-gallery {
+      margin-top: -400px;
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 10px;
+    }
+
+    .selected {
+      outline: 3px solid red;
+    }
+  </style>
+</head>
+<body>
+
+<div class="container">
+  <h2>Game Puzzle - 10 Soal</h2>
+  <div id="counter">Soal ke-1 dari 5</div>
+
+  <div id="puzzle"></div>
+    <br>
+    <br>
+  <div id="question">Kira-kira siapakah foto dalam puzzle di atas?</div>
+
+  <div id="navigation">
+    <button id="nextBtn" onclick="nextPuzzle()">Next Soal ▶️</button>
+  </div>
+
+  <div id="finalImages">
+    <h3>🔍 Inilah semua gambar asli yang digunakan dalam puzzle:</h3>
+    <div class="final-gallery" id="finalGallery"></div>
+  </div>
+</div>
+
+<script>
+  const puzzle = document.getElementById('puzzle');
+  const counter = document.getElementById('counter');
+  const nextBtn = document.getElementById('nextBtn');
+  const finalImagesSection = document.getElementById('finalImages');
+  const finalGallery = document.getElementById('finalGallery');
+  const question = document.getElementById('question');
+
+  const imageUrls = [];
+  for (let i = 1; i <= 5; i++) {
+    imageUrls.push(`image/image${i}.jpg`);
+  }
+
+  let currentIndex = 0;
+  let tiles = [];
+  let selectedTile = null;
+
+  function generateTiles(imageUrl) {
+    const positions = [];
+    for (let i = 0; i < 9; i++) {
+      const x = i % 3;
+      const y = Math.floor(i / 3);
+      positions.push({ x, y });
+    }
+
+    const shuffled = [...positions].sort(() => Math.random() - 0.5);
+
+    tiles = shuffled.map((pos, idx) => {
+      return {
+        index: idx,
+        x: pos.x,
+        y: pos.y,
+        image: imageUrl
+      };
+    });
+  }
+
+  function renderPuzzle() {
+    puzzle.innerHTML = '';
+    tiles.forEach((tile, i) => {
+      const div = document.createElement('div');
+      div.classList.add('tile');
+      div.style.backgroundImage = `url('${tile.image}')`;
+      div.style.backgroundPosition = `-${tile.x * 100}px -${tile.y * 100}px`;
+      div.dataset.index = i;
+
+      const label = document.createElement('div');
+      label.className = 'tile-number';
+      label.textContent = i + 1;
+      div.appendChild(label);
+
+      // Klik untuk tukar
+      div.onclick = () => handleTileClick(i, div);
+      puzzle.appendChild(div);
+    });
+
+    counter.textContent = `Soal ke-${currentIndex + 1} dari 5`;
+
+    if (currentIndex === imageUrls.length - 1) {
+      nextBtn.textContent = "Next Terakhir ✅";
+    }
+  }
+
+  function handleTileClick(index, element) {
+    if (!selectedTile) {
+      selectedTile = { index, element };
+      element.classList.add('selected');
+    } else {
+      // Tukar posisi data
+      const temp = tiles[selectedTile.index];
+      tiles[selectedTile.index] = tiles[index];
+      tiles[index] = temp;
+
+      selectedTile.element.classList.remove('selected');
+      selectedTile = null;
+      renderPuzzle();
+    }
+  }
+
+  function nextPuzzle() {
+    if (currentIndex < imageUrls.length - 1) {
+      currentIndex++;
+      loadPuzzle(currentIndex);
+    } else {
+      endGame();
+    }
+  }
+
+  function endGame() {
+    puzzle.innerHTML = '';
+    counter.textContent = 'Selesai!';
+    question.style.display = 'none';
+    nextBtn.style.display = 'none';
+    finalImagesSection.style.display = 'block';
+
+    imageUrls.forEach(url => {
+      const img = document.createElement('img');
+      img.src = url;
+      img.classList.add('reference-full');
+      finalGallery.appendChild(img);
+    });
+  }
+
+  function loadPuzzle(index) {
+    generateTiles(imageUrls[index]);
+    renderPuzzle();
+  }
+
+  // Mulai
+  loadPuzzle(currentIndex);
+</script>
+
+</body>
+</html>
