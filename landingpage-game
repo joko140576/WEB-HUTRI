@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <title>Game</title>
+  <style>
+    body, html {
+      margin: 0;
+      padding: 0;
+      height: 100%;
+      overflow: hidden;
+      font-family: Arial, sans-serif;
+    }
+
+    /* Gambar background penuh layar */
+    .bg {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: url("game.jpg") no-repeat center center/cover;
+      z-index: -1;
+    }
+
+    /* Container tombol */
+    .buttons {
+      position: absolute;
+      bottom: 300px;
+      width: 100%;
+      display: flex;
+      justify-content: center;
+      gap: 30px;
+    }
+
+    .buttons a {
+      text-decoration: none;
+      padding: 15px 40px;
+      background: rgba(26, 219, 26, 0.8);
+      color: white;
+      font-size: 25px;
+      font-weight: bold;
+      border-radius: 10px;
+      transition: 0.3s;
+    }
+
+    .buttons a:hover {
+      background: rgb(67, 187, 235);
+      transform: scale(1.1);
+    }
+  </style>
+</head>
+<body>
+  <!-- Background -->
+  <div class="bg"></div>
+  <center>
+     <H1 style="margin-top: 230px;color:white;font-size:40px;"> GAME SELINGAN </H1>
+  </center>
+  <!-- Tombol navigasi -->
+  <div class="buttons">
+    <a href="gamebox.html">Question in Box</a>
+    <a href="puzzle.html">Puzzle Face</a>
+  </div>
+</body>
+</html>
