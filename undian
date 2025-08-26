@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <title>🎉 UNDIAN HUT PT SSI KE-29</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      text-align: center;
+      background-image: url('bg.jpg'); /* GANTI link ini */
+      background-size: cover;
+      background-position: center;
+      background-attachment: fixed;
+      padding: 40px;
+      color: #fff;
+      text-shadow: 1px 1px 2px #000;
+    }
+    .container {
+      max-width: 1000px;
+      margin: 30px auto;
+      padding: 20px;
+      background-color: rgba(0, 0, 0, 0.8);
+      color: white;
+      text-align: center;
+      border-radius: 15px;
+    }
+
+    input[type="file"] {
+      margin: 20px;
+    }
+    button {
+      padding: 14px 30px;
+      font-size: 18px;
+      background-color: #28a745;
+      color: white;
+      border: none;
+      border-radius: 10px;
+      cursor: pointer;
+      margin: 10px;
+    }
+    button:hover {
+      background-color: #218838;
+    }
+    #result {
+      margin-top: 40px;
+      font-size: 36px;
+      font-weight: bold;
+      color: yellow;
+      min-height: 60px;
+    }
+    canvas {
+      position: fixed;
+      top: 0;
+      left: 0;
+      pointer-events: none;
+      z-index: 9999;
+    }
+    #remaining {
+      font-size: 18px;
+      margin-top: 10px;
+      font-weight: bold;
+    }
+    @keyframes blink {
+      0% { opacity: 1; }
+      50% { opacity: 0.3; }
+      100% { opacity: 1; }
+    }
+    .blinking {
+      animation: blink 0.2s infinite;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <center>
+      <img src="80.jpeg" width="350" height="100" alt="">
+    </center>
+    <h1> DOORPRIZE HUT RI 80 - RT 003/RW 09</h1>
+    <p>Silakan unggah file nama warga  (CSV/TXT):</p>
+
+    <input type="file" id="fileInput" accept=".txt,.csv"><br>
+    <button onclick="startLottery()">🎯 PUTAR UNDIAN!</button>
+    <button onclick="nextDraw()" id="nextButton" style="display: none;">🔁 UNDIAN BERIKUTNYA!</button>
+
+    <div id="remaining">Total nama tersisa: 0</div>
+    <div id="result">⬅️ KLIK TOMBOL UNTUK MEMULAI!</div>
+
+    <canvas id="confetti-canvas"></canvas>
+
+    <!-- Confetti JS -->
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+
+    <!-- Suara Tepuk Tangan -->
+    <audio id="clapSound" src="tepuk.mp3" preload="auto"></audio>
+  </div>
+  
+
+  <script>
+    let nameArray = [];
+
+    document.getElementById("fileInput").addEventListener("change", function(e) {
+      const file = e.target.files[0];
+      if (!file) return;
+
+      const allowedExtensions = ['txt', 'csv'];
+      const extension = file.name.split('.').pop().toLowerCase();
+      if (!allowedExtensions.includes(extension)) {
+        alert("❌ File tidak valid. Harap unggah file .txt atau .csv.");
+        return;
+      }
+
+      const reader = new FileReader();
+      reader.onload = function(e) {
+        const contents = e.target.result;
+        nameArray = contents.split(/\r?\n/).map(n => n.trim()).filter(n => n);
+        alert(`✅ ${nameArray.length} nama berhasil dimuat.`);
+        document.getElementById("nextButton").style.display = "inline-block";
+        updateRemaining();
+      };
+      reader.readAsText(file);
+    });
+
+    function startLottery() {
+      if (nameArray.length === 0) {
+        alert("❗ Silakan unggah file daftar nama terlebih dahulu.");
+        return;
+      }
+      animateAndDraw();
+    }
+
+    function nextDraw() {
+      if (nameArray.length === 0) {
+        alert("📭 Semua nama sudah menang.");
+        return;
+      }
+      animateAndDraw();
+    }
+
+    function animateAndDraw() {
+      const resultDiv = document.getElementById("result");
+      resultDiv.classList.add("blinking");
+
+      let counter = 0;
+      const duration = 2000;
+      const intervalTime = 50;
+
+      const interval = setInterval(() => {
+        const randName = nameArray[Math.floor(Math.random() * nameArray.length)];
+        resultDiv.textContent = randName;
+        counter += intervalTime;
+        if (counter >= duration) {
+          clearInterval(interval);
+          const winnerIndex = Math.floor(Math.random() * nameArray.length);
+          const winner = nameArray[winnerIndex];
+          nameArray.splice(winnerIndex, 1); // hapus pemenang
+          resultDiv.innerHTML = `🎉 Pemenang: <span style="color:#00ffff">${winner}</span>`;
+          resultDiv.classList.remove("blinking");
+          document.getElementById("clapSound").play();
+          launchConfetti();
+          updateRemaining();
+        }
+      }, intervalTime);
+    }
+
+    function updateRemaining() {
+      document.getElementById("remaining").textContent = `Total nama tersisa: ${nameArray.length}`;
+    }
+
+    function launchConfetti() {
+      const duration = 3 * 1000;
+      const end = Date.now() + duration;
+
+      (function frame() {
+        confetti({ particleCount: 5, angle: 60, spread: 55, origin: { x: 0 } });
+        confetti({ particleCount: 5, angle: 120, spread: 55, origin: { x: 1 } });
+        if (Date.now() < end) requestAnimationFrame(frame);
+      })();
+    }
+  </script>
+
+</body>
+</html>
