@@ -1,0 +1,513 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<title>Undian Dirgahayu RI ke-81 — 17 Agustus 2026</title>
+<style>
+  :root{
+    --merah:#A60E16;
+    --merah-tua:#6E0810;
+    --putih:#FBF8F2;
+    --emas:#D9A441;
+    --emas-terang:#F2C66D;
+    --hitam:#1A1411;
+    --bayang:rgba(0,0,0,0.35);
+  }
+  *{box-sizing:border-box;}
+  html,body{margin:0;padding:0;}
+  body{
+    min-height:100vh;
+    background:
+      radial-gradient(circle at 50% -10%, var(--merah) 0%, var(--merah-tua) 55%, var(--hitam) 100%);
+    font-family:'Georgia','Times New Roman',serif;
+    color:var(--putih);
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    padding:32px 16px 60px;
+    overflow-x:hidden;
+  }
+
+  .garuda-row{
+    display:flex;
+    gap:18px;
+    margin-bottom:6px;
+    font-size:22px;
+    letter-spacing:10px;
+    color:var(--emas-terang);
+  }
+
+  h1{
+    font-family:'Trajan Pro','Cinzel','Georgia',serif;
+    text-transform:uppercase;
+    text-align:center;
+    font-size:clamp(28px,5vw,46px);
+    letter-spacing:4px;
+    margin:6px 0 0;
+    color:var(--emas-terang);
+    text-shadow:0 2px 0 var(--merah-tua), 0 4px 14px var(--bayang);
+  }
+  .subjudul{
+    text-align:center;
+    font-size:clamp(14px,2.2vw,18px);
+    letter-spacing:6px;
+    color:var(--putih);
+    opacity:.85;
+    margin:8px 0 4px;
+    text-transform:uppercase;
+  }
+  .tahun{
+    text-align:center;
+    font-size:clamp(34px,7vw,64px);
+    font-weight:bold;
+    color:var(--putih);
+    letter-spacing:2px;
+    margin:0 0 28px;
+    text-shadow:0 3px 12px var(--bayang);
+  }
+  .garis-emas{
+    width:120px;height:3px;
+    background:linear-gradient(90deg,transparent,var(--emas-terang),transparent);
+    margin:0 0 30px;
+  }
+
+  .panggung{
+    width:min(560px,92vw);
+    background:linear-gradient(180deg,#FBF8F2,#F1E8D6);
+    border:3px solid var(--emas);
+    border-radius:18px;
+    box-shadow:0 18px 50px var(--bayang), inset 0 0 0 6px rgba(166,14,22,0.08);
+    padding:34px 28px 28px;
+    position:relative;
+    color:var(--hitam);
+  }
+  .panggung::before, .panggung::after{
+    content:"★";
+    position:absolute;
+    top:-16px;
+    font-size:26px;
+    color:var(--emas);
+    background:var(--putih);
+    border-radius:50%;
+    width:32px;height:32px;
+    display:flex;align-items:center;justify-content:center;
+    border:2px solid var(--emas);
+  }
+  .panggung::before{left:-16px;}
+  .panggung::after{right:-16px;}
+
+  .label-kecil{
+    text-align:center;
+    text-transform:uppercase;
+    letter-spacing:3px;
+    font-size:13px;
+    color:var(--merah);
+    font-weight:bold;
+    margin-bottom:10px;
+  }
+
+  .jendela-nama{
+    background:var(--hitam);
+    border-radius:12px;
+    padding:26px 14px;
+    min-height:96px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    text-align:center;
+    border:2px dashed var(--emas);
+    overflow:hidden;
+  }
+  .nama-tampil{
+    font-size:clamp(22px,5.5vw,34px);
+    font-weight:bold;
+    color:var(--emas-terang);
+    letter-spacing:1px;
+    word-break:break-word;
+    transition:opacity .04s;
+  }
+  .nama-tampil.kosong{
+    color:#888;
+    font-size:16px;
+    letter-spacing:2px;
+    text-transform:uppercase;
+    font-weight:normal;
+  }
+
+  .info-sisa{
+    text-align:center;
+    font-size:13px;
+    color:var(--merah-tua);
+    margin-top:10px;
+    letter-spacing:1px;
+  }
+
+  .tombol-mulai{
+    display:block;
+    margin:22px auto 6px;
+    padding:16px 42px;
+    background:linear-gradient(180deg,var(--merah) 0%, var(--merah-tua) 100%);
+    color:var(--putih);
+    border:2px solid var(--emas);
+    border-radius:999px;
+    font-family:inherit;
+    font-size:18px;
+    font-weight:bold;
+    letter-spacing:3px;
+    text-transform:uppercase;
+    cursor:pointer;
+    box-shadow:0 8px 18px rgba(166,14,22,0.4);
+    transition:transform .12s ease, box-shadow .12s ease, filter .12s;
+  }
+  .tombol-mulai:hover:not(:disabled){
+    transform:translateY(-2px);
+    box-shadow:0 12px 24px rgba(166,14,22,0.5);
+  }
+  .tombol-mulai:active:not(:disabled){transform:translateY(1px);}
+  .tombol-mulai:disabled{
+    filter:grayscale(.4);
+    cursor:not-allowed;
+    opacity:.7;
+  }
+
+  .baris-aksi{
+    display:flex;
+    justify-content:center;
+    gap:10px;
+    flex-wrap:wrap;
+    margin-top:4px;
+  }
+  .tombol-kecil{
+    background:transparent;
+    border:1.5px solid var(--merah);
+    color:var(--merah);
+    padding:8px 16px;
+    border-radius:999px;
+    font-family:inherit;
+    font-size:12.5px;
+    letter-spacing:1.5px;
+    text-transform:uppercase;
+    cursor:pointer;
+  }
+  .tombol-kecil:hover{background:var(--merah);color:var(--putih);}
+
+  .panel-data{
+    width:min(560px,92vw);
+    margin-top:26px;
+    background:rgba(0,0,0,0.25);
+    border:1px solid rgba(217,164,65,0.4);
+    border-radius:14px;
+    padding:18px 20px;
+  }
+  .panel-data summary{
+    cursor:pointer;
+    font-size:14px;
+    letter-spacing:2px;
+    text-transform:uppercase;
+    color:var(--emas-terang);
+    outline:none;
+  }
+  .panel-data .isi{margin-top:14px;}
+  .panel-data label{
+    display:block;
+    font-size:12px;
+    letter-spacing:1px;
+    color:var(--putih);
+    opacity:.85;
+    margin-bottom:6px;
+  }
+  .panel-data textarea{
+    width:100%;
+    min-height:100px;
+    background:var(--putih);
+    color:var(--hitam);
+    border:1px solid var(--emas);
+    border-radius:8px;
+    padding:10px;
+    font-family:inherit;
+    font-size:13px;
+    resize:vertical;
+  }
+  .panel-data .baris-file{
+    display:flex;
+    align-items:center;
+    gap:10px;
+    flex-wrap:wrap;
+    margin:12px 0;
+  }
+  .panel-data input[type=file]{
+    color:var(--putih);
+    font-size:12px;
+  }
+  .pesan-status{
+    font-size:12px;
+    color:var(--emas-terang);
+    margin-top:6px;
+    min-height:16px;
+  }
+
+  .daftar-pemenang{
+    width:min(560px,92vw);
+    margin-top:18px;
+  }
+  .daftar-pemenang h3{
+    font-size:14px;
+    letter-spacing:2px;
+    text-transform:uppercase;
+    color:var(--emas-terang);
+    margin:0 0 10px;
+    text-align:center;
+  }
+  .daftar-pemenang ol{
+    background:rgba(255,255,255,0.06);
+    border:1px solid rgba(217,164,65,0.3);
+    border-radius:12px;
+    padding:14px 14px 14px 38px;
+    margin:0;
+    max-height:220px;
+    overflow-y:auto;
+  }
+  .daftar-pemenang li{
+    padding:5px 0;
+    font-size:15px;
+    border-bottom:1px dashed rgba(255,255,255,0.12);
+  }
+  .daftar-pemenang li:last-child{border-bottom:none;}
+
+  footer{
+    margin-top:36px;
+    text-align:center;
+    font-size:12px;
+    letter-spacing:2px;
+    color:rgba(251,248,242,0.55);
+    text-transform:uppercase;
+  }
+
+  @media (prefers-reduced-motion: reduce){
+    .tombol-mulai, .nama-tampil{transition:none;}
+  }
+</style>
+</head>
+<body>
+
+  <div class="garuda-row">★ ★ ★</div>
+  <h1>Dirgahayu Republik Indonesia</h1>
+  <div class="subjudul">Undian Berhadiah</div>
+  <div class="tahun">17 Agustus 2026</div>
+  <div class="garis-emas"></div>
+
+  <div class="panggung">
+    <div class="label-kecil">Nama Pemenang</div>
+    <div class="jendela-nama">
+      <div class="nama-tampil kosong" id="tampilanNama">Tekan Mulai Undian</div>
+    </div>
+    <div class="info-sisa" id="infoSisa">0 peserta tersisa</div>
+
+    <button class="tombol-mulai" id="tombolMulai">Mulai Undian</button>
+    <div class="baris-aksi">
+      <button class="tombol-kecil" id="tombolReset">Reset Semua Peserta</button>
+    </div>
+  </div>
+
+  <details class="panel-data" id="panelData">
+    <summary>Kelola Daftar Nama Peserta</summary>
+    <div class="isi">
+      <div class="baris-file">
+        <label style="margin:0;">Impor dari Excel (.xlsx/.csv):</label>
+        <input type="file" id="inputFile" accept=".xlsx,.xls,.csv">
+      </div>
+      <label for="textareaNama">Atau tempel/edit daftar nama (satu nama per baris):</label>
+      <textarea id="textareaNama" placeholder="Contoh:&#10;Budi Santoso&#10;Siti Aminah&#10;Ahmad Wijaya"></textarea>
+      <div class="baris-aksi" style="margin-top:10px;">
+        <button class="tombol-kecil" id="tombolSimpanDaftar">Simpan Daftar Ini</button>
+        <button class="tombol-kecil" id="tombolContoh">Isi Contoh Nama</button>
+      </div>
+      <div class="pesan-status" id="pesanStatus"></div>
+    </div>
+  </details>
+
+  <div class="daftar-pemenang" id="blokPemenang" style="display:none;">
+    <h3>Daftar Pemenang</h3>
+    <ol id="listPemenang"></ol>
+  </div>
+
+  <footer>Program ini berjalan sepenuhnya offline di peramban Anda</footer>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
+<script>
+(function(){
+  var peserta = [];
+  var pemenang = [];
+  var sedangMengundi = false;
+
+  var tampilanNama = document.getElementById('tampilanNama');
+  var infoSisa = document.getElementById('infoSisa');
+  var tombolMulai = document.getElementById('tombolMulai');
+  var tombolReset = document.getElementById('tombolReset');
+  var textareaNama = document.getElementById('textareaNama');
+  var tombolSimpanDaftar = document.getElementById('tombolSimpanDaftar');
+  var tombolContoh = document.getElementById('tombolContoh');
+  var inputFile = document.getElementById('inputFile');
+  var pesanStatus = document.getElementById('pesanStatus');
+  var blokPemenang = document.getElementById('blokPemenang');
+  var listPemenang = document.getElementById('listPemenang');
+  var panelData = document.getElementById('panelData');
+
+  function contohNama(){
+    return ["Budi Santoso","Siti Aminah","Ahmad Wijaya","Dewi Lestari","Rudi Hartono",
+    "Putri Wulandari","Eko Prasetyo","Rina Marlina","Agus Setiawan","Maya Sari",
+    "Hendra Gunawan","Yuni Astuti","Joko Susilo","Lina Permata","Andi Saputra"];
+  }
+
+  function perbaruiSisa(){
+    infoSisa.textContent = peserta.length + " peserta tersisa";
+  }
+
+  function perbaruiListPemenang(){
+    if(pemenang.length === 0){
+      blokPemenang.style.display = 'none';
+      return;
+    }
+    blokPemenang.style.display = 'block';
+    listPemenang.innerHTML = '';
+    for(var i = pemenang.length - 1; i >= 0; i--){
+      var li = document.createElement('li');
+      li.textContent = pemenang[i];
+      listPemenang.appendChild(li);
+    }
+  }
+
+  function muatDaftar(namaArray, sumber){
+    var bersih = namaArray
+      .map(function(n){ return (n || '').toString().trim(); })
+      .filter(function(n){ return n.length > 0; });
+
+    // Buang duplikat sambil menjaga urutan
+    var unik = [];
+    var terlihat = {};
+    bersih.forEach(function(n){
+      if(!terlihat[n]){ terlihat[n] = true; unik.push(n); }
+    });
+
+    peserta = unik;
+    pemenang = [];
+    textareaNama.value = peserta.join('\n');
+    perbaruiSisa();
+    perbaruiListPemenang();
+    tampilanNama.textContent = 'Tekan Mulai Undian';
+    tampilanNama.classList.add('kosong');
+    pesanStatus.textContent = sumber + ': ' + peserta.length + ' nama dimuat.';
+  }
+
+  tombolContoh.addEventListener('click', function(){
+    muatDaftar(contohNama(), 'Contoh');
+  });
+
+  tombolSimpanDaftar.addEventListener('click', function(){
+    var baris = textareaNama.value.split('\n');
+    muatDaftar(baris, 'Daftar manual');
+    panelData.open = false;
+  });
+
+  inputFile.addEventListener('change', function(e){
+    var file = e.target.files[0];
+    if(!file) return;
+    var reader = new FileReader();
+    reader.onload = function(ev){
+      try{
+        var data = new Uint8Array(ev.target.result);
+        var workbook = XLSX.read(data, {type:'array'});
+        var sheet = workbook.Sheets[workbook.SheetNames[0]];
+        var rows = XLSX.utils.sheet_to_json(sheet, {header:1});
+        var namaList = [];
+        rows.forEach(function(row){
+          if(row && row.length > 0 && row[0] !== undefined && row[0] !== null){
+            var nilai = row[0].toString().trim();
+            // Lewati kemungkinan baris judul kolom seperti "nama" / "name"
+            var lower = nilai.toLowerCase();
+            if(lower === 'nama' || lower === 'name' || lower === 'no' || nilai === '') return;
+            namaList.push(nilai);
+          }
+        });
+        if(namaList.length === 0){
+          pesanStatus.textContent = 'Tidak ada nama ditemukan pada kolom pertama file.';
+          return;
+        }
+        muatDaftar(namaList, 'File "' + file.name + '"');
+      }catch(err){
+        pesanStatus.textContent = 'Gagal membaca file. Pastikan formatnya .xlsx, .xls, atau .csv.';
+      }
+    };
+    reader.readAsArrayBuffer(file);
+  });
+
+  tombolReset.addEventListener('click', function(){
+    if(sedangMengundi) return;
+    if(!confirm('Reset akan mengembalikan semua nama (termasuk yang sudah menang) ke daftar peserta. Lanjutkan?')){
+      return;
+    }
+    var gabungan = peserta.concat(pemenang);
+    muatDaftar(gabungan, 'Reset');
+  });
+
+  function acakArray(arr){
+    for(var i = arr.length - 1; i > 0; i--){
+      var j = Math.floor(Math.random() * (i + 1));
+      var tmp = arr[i]; arr[i] = arr[j]; arr[j] = tmp;
+    }
+    return arr;
+  }
+
+  tombolMulai.addEventListener('click', function(){
+    if(sedangMengundi) return;
+    if(peserta.length === 0){
+      pesanStatus.textContent = 'Daftar peserta kosong. Silakan tambahkan nama terlebih dahulu di bawah.';
+      panelData.open = true;
+      return;
+    }
+
+    sedangMengundi = true;
+    tombolMulai.disabled = true;
+    tombolMulai.textContent = 'Mengundi...';
+    tampilanNama.classList.remove('kosong');
+
+    var indeksPemenang = Math.floor(Math.random() * peserta.length);
+    var namaPemenang = peserta[indeksPemenang];
+
+    var durasiTotal = 5000;
+    var mulaiWaktu = Date.now();
+    var jedaSaatIni = 60;
+
+    function langkahAcak(){
+      var terlewat = Date.now() - mulaiWaktu;
+      if(terlewat >= durasiTotal){
+        tampilanNama.textContent = namaPemenang;
+        peserta.splice(indeksPemenang, 1);
+        pemenang.push(namaPemenang);
+        perbaruiSisa();
+        perbaruiListPemenang();
+        sedangMengundi = false;
+        tombolMulai.disabled = false;
+        tombolMulai.textContent = peserta.length > 0 ? 'Mulai Undian' : 'Semua Peserta Sudah Menang';
+        if(peserta.length === 0){ tombolMulai.disabled = true; }
+        return;
+      }
+      var namaAcak = peserta[Math.floor(Math.random() * peserta.length)];
+      tampilanNama.textContent = namaAcak;
+
+      // Perlambat menjelang akhir agar terasa dramatis
+      var progres = terlewat / durasiTotal;
+      jedaSaatIni = 50 + Math.pow(progres, 3) * 250;
+
+      setTimeout(langkahAcak, jedaSaatIni);
+    }
+    langkahAcak();
+  });
+
+  // Inisialisasi dengan data contoh agar program langsung bisa dicoba
+  muatDaftar(contohNama(), 'Contoh awal');
+  pesanStatus.textContent = '';
+})();
+</script>
+</body>
+</html>
