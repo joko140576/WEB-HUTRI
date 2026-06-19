@@ -1,0 +1,337 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Tebak Isi Kotak - Dirgahayu RI ke-81</title>
+
+<style>
+:root{
+    --merah:#C8102E;
+    --putih:#ffffff;
+    --emas:#FFD24C;
+    --emas-tua:#B8860B;
+    --navy-gelap:#1a0a0a;
+}
+
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family:'Segoe UI', Arial, sans-serif;
+}
+
+body{
+    background:
+        radial-gradient(circle at 20% 20%, rgba(255,210,76,0.12), transparent 40%),
+        radial-gradient(circle at 80% 70%, rgba(200,16,46,0.25), transparent 45%),
+        linear-gradient(160deg,#3a0a0a 0%, #1a0a0a 55%, #0d0505 100%);
+    min-height:100vh;
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    justify-content:center;
+    color:white;
+    padding:30px 20px;
+    overflow-x:hidden;
+    position:relative;
+}
+
+/* Pola batik/garis halus dekoratif di background */
+body::before{
+    content:"";
+    position:fixed;
+    inset:0;
+    background-image:
+        repeating-linear-gradient(45deg, rgba(255,210,76,0.035) 0px, rgba(255,210,76,0.035) 2px, transparent 2px, transparent 40px);
+    pointer-events:none;
+}
+
+.eyebrow{
+    letter-spacing:4px;
+    font-size:13px;
+    color:var(--emas);
+    text-transform:uppercase;
+    margin-bottom:10px;
+    font-weight:600;
+}
+
+h1{
+    margin-bottom:6px;
+    text-align:center;
+    font-size:clamp(28px,5vw,46px);
+    font-weight:800;
+    background:linear-gradient(180deg,#fff,var(--emas));
+    -webkit-background-clip:text;
+    background-clip:text;
+    color:transparent;
+    text-shadow:0 4px 18px rgba(0,0,0,0.35);
+}
+
+.subjudul{
+    text-align:center;
+    color:#ffd9d9;
+    font-size:16px;
+    margin-bottom:8px;
+}
+
+.angka81{
+    display:flex;
+    align-items:baseline;
+    gap:10px;
+    margin:4px 0 20px 0;
+}
+
+.angka81 .num{
+    font-size:clamp(50px,9vw,90px);
+    font-weight:900;
+    color:var(--merah);
+    -webkit-text-stroke:2px var(--emas);
+    line-height:1;
+}
+
+.angka81 .label{
+    font-size:18px;
+    font-weight:700;
+    color:var(--emas);
+}
+
+.container{
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    gap:28px;
+    flex-wrap:wrap;
+    max-width:1100px;
+    perspective:1200px;
+}
+
+.kotak{
+    width:220px;
+    height:220px;
+    cursor:pointer;
+    position:relative;
+    transform-style:preserve-3d;
+    transition:transform 0.9s cubic-bezier(.4,.2,.2,1);
+}
+
+.kotak.terbuka{
+    transform:rotateY(180deg);
+}
+
+.sisi{
+    position:absolute;
+    inset:0;
+    border-radius:16px;
+    backface-visibility:hidden;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    overflow:hidden;
+    box-shadow:0 10px 25px rgba(0,0,0,0.45);
+}
+
+.depan{
+    background:linear-gradient(145deg,var(--merah),#8c0a1f);
+    border:3px solid var(--emas);
+}
+
+.depan::before{
+    content:"🎁";
+    font-size:75px;
+    filter:drop-shadow(0 4px 6px rgba(0,0,0,0.4));
+}
+
+.depan .nomor{
+    position:absolute;
+    top:10px;
+    left:14px;
+    font-size:13px;
+    color:var(--emas);
+    font-weight:700;
+    letter-spacing:1px;
+}
+
+.belakang{
+    transform:rotateY(180deg);
+    background:#222;
+    border:3px solid var(--emas);
+}
+
+.belakang img{
+    width:100%;
+    height:100%;
+    object-fit:cover;
+    display:block;
+}
+
+.kotak:hover{
+    filter:brightness(1.08);
+}
+
+#pertanyaan{
+    margin-top:18px;
+    width:100%;
+    max-width:91200px;
+    background:rgba(255,255,255,0.07);
+    border:1px solid rgba(255,210,76,0.35);
+    backdrop-filter:blur(4px);
+    padding:24px 28px;
+    border-radius:14px;
+    font-size:clamp(18px,2.4vw,26px);
+    font-weight:700;
+    text-align:center;
+    line-height:1.5;
+}
+
+#tombol-jawaban{
+    margin-top:18px;
+    padding:14px 38px;
+    font-size:17px;
+    font-weight:700;
+    letter-spacing:0.5px;
+    color:#3a0a0a;
+    background:linear-gradient(180deg,var(--emas),var(--emas-tua));
+    border:none;
+    border-radius:50px;
+    cursor:pointer;
+    box-shadow:0 8px 18px rgba(0,0,0,0.4);
+    transition:transform 0.2s, box-shadow 0.2s;
+}
+
+#tombol-jawaban:hover{
+    transform:translateY(-2px);
+    box-shadow:0 12px 22px rgba(0,0,0,0.5);
+}
+
+#tombol-jawaban:active{
+    transform:translateY(0px);
+}
+
+#tombol-jawaban:disabled{
+    opacity:0.5;
+    cursor:not-allowed;
+}
+
+#jawaban{
+    margin-top:18px;
+    font-size:clamp(20px,3vw,30px);
+    font-weight:800;
+    color:var(--emas);
+    text-align:center;
+    min-height:40px;
+    display:none;
+    text-shadow:0 2px 8px rgba(0,0,0,0.5);
+}
+
+footer{
+    margin-top:40px;
+    font-size:13px;
+    color:rgba(255,255,255,0.55);
+    text-align:center;
+}
+
+@media(max-width:600px){
+    .kotak{
+        width:150px;
+        height:150px;
+    }
+    .depan::before{
+        font-size:55px;
+    }
+    .container{
+        gap:16px;
+    }
+}
+</style>
+</head>
+<body>
+
+<div class="eyebrow">17 Agustus 2026</div>
+<h1>Tebak Isi Kotak</h1>
+<div class="angka81">
+    <span class="num">81</span>
+    <span class="label">TAHUN<br>INDONESIA MERDEKA</span>
+    
+</div>
+
+<div class="container">
+
+    <div class="kotak" onclick="bukaKotak(this, 0)">
+        <div class="sisi depan"><span class="nomor">01</span></div>
+        <div class="sisi belakang">
+            <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/d/d9/Presiden_Sukarno.jpg/330px-Presiden_Sukarno.jpg" alt="Pahlawan 1">
+        </div>
+    </div>
+
+    <div class="kotak" onclick="bukaKotak(this, 1)">
+        <div class="sisi depan"><span class="nomor">02</span></div>
+        <div class="sisi belakang">
+            <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/0/02/Bung_Hatta-2.jpg/330px-Bung_Hatta-2.jpg" alt="Pahlawan 2">
+        </div>
+    </div>
+
+    <div class="kotak" onclick="bukaKotak(this, 2)">
+        <div class="sisi depan"><span class="nomor">03</span></div>
+        <div class="sisi belakang">
+            <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/9/97/Jenderal_Sudirman.jpg/330px-Jenderal_Sudirman.jpg" alt="Pahlawan 3">
+        </div>
+    </div>
+
+    <div class="kotak" onclick="bukaKotak(this, 3)">
+        <div class="sisi depan"><span class="nomor">04</span></div>
+        <div class="sisi belakang">
+            <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/2/2a/Raden_Ayu_Kartini.jpg/330px-Raden_Ayu_Kartini.jpg" alt="Pahlawan 4">
+        </div>
+    </div>
+
+</div>
+
+<div id="pertanyaan">
+    Siapakah nama pahlawan seperti yang ditunjukkan pada foto tersebut?
+</div>
+
+<button id="tombol-jawaban" onclick="tampilkanJawaban()" disabled>Lihat Jawaban</button>
+
+<div id="jawaban"></div>
+
+<footer>Klik salah satu kotak untuk membukanya, lalu tekan tombol jawaban.</footer>
+
+<script>
+
+const namaPahlawan = [
+    "Ir. Soekarno",
+    "Drs. Mohammad Hatta",
+    "Jenderal Soedirman",
+    "R.A. Kartini"
+];
+
+let kotakAktif = null;
+
+function bukaKotak(kotakDipilih, index){
+
+    // Tutup semua kotak
+    document.querySelectorAll(".kotak").forEach(kotak=>{
+        kotak.classList.remove("terbuka");
+    });
+
+    // Buka kotak yang dipilih dengan animasi rotasi horizontal
+    kotakDipilih.classList.add("terbuka");
+    kotakAktif = index;
+
+    // Reset & aktifkan tombol jawaban
+    document.getElementById("jawaban").style.display = "none";
+    document.getElementById("tombol-jawaban").disabled = false;
+}
+
+function tampilkanJawaban(){
+    if(kotakAktif === null) return;
+    const elJawaban = document.getElementById("jawaban");
+    elJawaban.textContent = "🏅 " + namaPahlawan[kotakAktif];
+    elJawaban.style.display = "block";
+}
+
+</script>
+
+</body>
+</html>
