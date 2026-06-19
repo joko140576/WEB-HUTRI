@@ -1,0 +1,355 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Undian Dirgahayu RI ke-81 — 17 Agustus 2026</title>
+<style>
+  :root{
+    --merah:#C8102E;
+    --merah-tua:#7A0C1E;
+    --putih:#FDFBF5;
+    --emas:#D4A437;
+    --emas-terang:#F2C94C;
+    --hitam:#1A1410;
+  }
+  *{box-sizing:border-box;}
+  body{
+    margin:0;
+    min-height:100vh;
+    font-family:'Georgia', 'Times New Roman', serif;
+    background:
+      radial-gradient(circle at 20% 10%, rgba(212,164,55,0.15), transparent 40%),
+      radial-gradient(circle at 80% 90%, rgba(212,164,55,0.12), transparent 45%),
+      linear-gradient(180deg, var(--merah-tua) 0%, var(--merah) 45%, var(--merah-tua) 100%);
+    color:var(--putih);
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    padding:36px 16px 60px;
+    overflow-x:hidden;
+    position:relative;
+  }
+  /* garis tiang bendera dekoratif */
+  body::before{
+    content:"";
+    position:fixed;
+    top:0; left:50%;
+    width:2px; height:100%;
+    background:linear-gradient(180deg, transparent, rgba(255,255,255,0.08), transparent);
+    transform:translateX(-50%);
+    pointer-events:none;
+  }
+  .eyebrow{
+    letter-spacing:0.35em;
+    font-size:11px;
+    text-transform:uppercase;
+    color:var(--emas-terang);
+    font-family:'Helvetica Neue', Arial, sans-serif;
+    margin-bottom:6px;
+  }
+  h1{
+    font-family:'Playfair Display', Georgia, serif;
+    font-size:clamp(28px,6vw,48px);
+    margin:0 0 4px;
+    text-align:center;
+    text-shadow:0 2px 12px rgba(0,0,0,0.35);
+    letter-spacing:0.01em;
+  }
+  .sub{
+    font-family:'Helvetica Neue', Arial, sans-serif;
+    color:rgba(253,251,245,0.75);
+    font-size:14px;
+    margin-bottom:34px;
+    text-align:center;
+  }
+  .stage{
+    width:min(560px, 92vw);
+    background:linear-gradient(180deg, rgba(255,255,255,0.07), rgba(255,255,255,0.02));
+    border:1px solid rgba(212,164,55,0.45);
+    border-radius:18px;
+    padding:38px 26px;
+    text-align:center;
+    backdrop-filter:blur(2px);
+    box-shadow:0 20px 60px rgba(0,0,0,0.35);
+    position:relative;
+  }
+  .stage::before, .stage::after{
+    content:"☆";
+    position:absolute;
+    color:var(--emas);
+    font-size:18px;
+    opacity:0.6;
+    top:14px;
+  }
+  .stage::before{left:18px;}
+  .stage::after{right:18px;}
+  .label{
+    font-family:'Helvetica Neue', Arial, sans-serif;
+    font-size:12px;
+    letter-spacing:0.25em;
+    text-transform:uppercase;
+    color:var(--emas-terang);
+    margin-bottom:14px;
+  }
+  .name-display{
+    font-family:'Playfair Display', Georgia, serif;
+    font-size:clamp(26px,7vw,44px);
+    font-weight:700;
+    min-height:64px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    color:var(--putih);
+    transition:transform 0.08s ease;
+  }
+  .name-display.spinning{ color:var(--emas-terang); }
+  .name-display.winner{
+    color:var(--emas-terang);
+    text-shadow:0 0 18px rgba(242,201,76,0.6);
+    animation:pop 0.45s ease;
+  }
+  @keyframes pop{
+    0%{transform:scale(0.85);}
+    60%{transform:scale(1.06);}
+    100%{transform:scale(1);}
+  }
+  .counter{
+    font-family:'Helvetica Neue', Arial, sans-serif;
+    font-size:13px;
+    color:rgba(253,251,245,0.7);
+    margin-top:18px;
+  }
+  button#mulai{
+    margin-top:28px;
+    font-family:'Helvetica Neue', Arial, sans-serif;
+    font-weight:600;
+    letter-spacing:0.08em;
+    text-transform:uppercase;
+    font-size:14px;
+    padding:14px 38px;
+    border-radius:999px;
+    border:1px solid var(--emas);
+    background:linear-gradient(180deg, var(--emas-terang), var(--emas));
+    color:var(--hitam);
+    cursor:pointer;
+    transition:transform 0.15s ease, box-shadow 0.15s ease, opacity 0.15s ease;
+    box-shadow:0 8px 24px rgba(0,0,0,0.25);
+  }
+  button#mulai:hover:not(:disabled){ transform:translateY(-2px); box-shadow:0 12px 28px rgba(0,0,0,0.3); }
+  button#mulai:active:not(:disabled){ transform:translateY(0); }
+  button#mulai:disabled{ opacity:0.55; cursor:not-allowed; }
+
+  .panel{
+    width:min(560px, 92vw);
+    margin-top:26px;
+  }
+  .panel h2{
+    font-family:'Helvetica Neue', Arial, sans-serif;
+    font-size:12px;
+    letter-spacing:0.2em;
+    text-transform:uppercase;
+    color:var(--emas-terang);
+    margin:0 0 10px;
+  }
+  .winners-list{
+    list-style:none;
+    margin:0; padding:0;
+    display:flex;
+    flex-direction:column;
+    gap:8px;
+    max-height:260px;
+    overflow-y:auto;
+  }
+  .winners-list li{
+    font-family:'Helvetica Neue', Arial, sans-serif;
+    background:rgba(255,255,255,0.06);
+    border:1px solid rgba(255,255,255,0.1);
+    border-left:3px solid var(--emas);
+    border-radius:8px;
+    padding:10px 14px;
+    font-size:14px;
+    display:flex;
+    justify-content:space-between;
+  }
+  .winners-list li .no{ color:var(--emas-terang); margin-right:8px; font-weight:700; }
+  .status{
+    font-family:'Helvetica Neue', Arial, sans-serif;
+    font-size:12.5px;
+    color:rgba(253,251,245,0.65);
+    margin-top:16px;
+    text-align:center;
+    min-height:16px;
+  }
+  .status.err{ color:#ffb4b4; }
+
+  #fx{
+    position:fixed; inset:0;
+    pointer-events:none;
+    overflow:hidden;
+    z-index:5;
+  }
+  .spark{
+    position:absolute;
+    width:8px; height:8px;
+    border-radius:50%;
+    top:-12px;
+    animation:fall linear forwards;
+  }
+  @keyframes fall{
+    to{ transform:translateY(110vh) rotate(280deg); opacity:0; }
+  }
+
+  footer{
+    margin-top:38px;
+    font-family:'Helvetica Neue', Arial, sans-serif;
+    font-size:11px;
+    color:rgba(253,251,245,0.45);
+    text-align:center;
+  }
+</style>
+</head>
+<body>
+  <div id="fx"></div>
+
+  <div class="eyebrow">Dirgahayu Republik Indonesia ke-81</div>
+  <h1>Undian Doorprize 17 Agustus 2026</h1>
+  <div class="sub">Klik tombol mulai untuk mengocok nama peserta</div>
+
+  <div class="stage">
+    <div class="label">Nama Pemenang</div>
+    <div class="name-display" id="nameDisplay">— Siap Diundi —</div>
+    <div class="counter" id="counter">Memuat data peserta…</div>
+    <button id="mulai" disabled>Mulai Undian</button>
+  </div>
+
+  <div class="panel">
+    <h2>Daftar Pemenang</h2>
+    <ul class="winners-list" id="winnersList"></ul>
+    <div class="status" id="status"></div>
+  </div>
+
+  <footer>Sumber data: Google Spreadsheet · Apps Script Backend</footer>
+
+<script>
+// =======================================================
+// GANTI URL DI BAWAH INI DENGAN URL WEB APP APPS SCRIPT KAMU
+// Contoh: https://script.google.com/macros/s/AKfycbyQqUOHAOtdXe5G0ATXRS7k00Q9jUii4gGyixM2h4I7Q9UzYlzJr2QmAUoz8p6wmKFITg/exec
+// =======================================================
+const API_URL = "https://script.google.com/macros/s/AKfycbyQqUOHAOtdXe5G0ATXRS7k00Q9jUii4gGyixM2h4I7Q9UzYlzJr2QmAUoz8p6wmKFITg/exec";
+
+let peserta = [];      // {row, nama}
+let pemenangKe = 0;
+let isSpinning = false;
+
+const nameDisplay = document.getElementById('nameDisplay');
+const counter = document.getElementById('counter');
+const btn = document.getElementById('mulai');
+const winnersList = document.getElementById('winnersList');
+const statusEl = document.getElementById('status');
+
+function setStatus(msg, isErr){
+  statusEl.textContent = msg || '';
+  statusEl.className = 'status' + (isErr ? ' err' : '');
+}
+
+function updateCounter(){
+  counter.textContent = peserta.length > 0
+    ? `${peserta.length} peserta tersisa`
+    : 'Tidak ada peserta tersisa';
+  btn.disabled = peserta.length === 0 || isSpinning;
+}
+
+async function muatPeserta(){
+  setStatus('Memuat data dari spreadsheet…');
+  try{
+    const res = await fetch(`${API_URL}?action=getNames`);
+    const json = await res.json();
+    if(json.status !== 'ok') throw new Error(json.message || 'Gagal memuat data');
+    peserta = json.data;
+    setStatus('');
+    updateCounter();
+  }catch(err){
+    setStatus('Gagal memuat data. Periksa URL Apps Script kamu. (' + err.message + ')', true);
+    counter.textContent = 'Gagal memuat peserta';
+  }
+}
+
+function spark(){
+  const fx = document.getElementById('fx');
+  const colors = ['#D4A437','#F2C94C','#FDFBF5','#C8102E'];
+  for(let i=0;i<60;i++){
+    const s = document.createElement('div');
+    s.className = 'spark';
+    s.style.left = Math.random()*100 + 'vw';
+    s.style.background = colors[Math.floor(Math.random()*colors.length)];
+    s.style.animationDuration = (2.5 + Math.random()*1.5) + 's';
+    s.style.opacity = 0.9;
+    fx.appendChild(s);
+    setTimeout(()=>s.remove(), 4200);
+  }
+}
+
+async function mulaiUndian(){
+  if(isSpinning || peserta.length === 0) return;
+  isSpinning = true;
+  btn.disabled = true;
+  setStatus('');
+  nameDisplay.classList.remove('winner');
+  nameDisplay.classList.add('spinning');
+
+  const durasi = 5000;
+  const mulai = Date.now();
+  let interval = 60;
+
+  await new Promise(resolve=>{
+    function tick(){
+      const elapsed = Date.now() - mulai;
+      const acak = peserta[Math.floor(Math.random()*peserta.length)];
+      nameDisplay.textContent = acak.nama;
+      if(elapsed < durasi){
+        interval = 60 + (elapsed/durasi) * 220; // melambat menjelang akhir
+        setTimeout(tick, interval);
+      } else {
+        resolve();
+      }
+    }
+    tick();
+  });
+
+  // pilih pemenang final
+  const idx = Math.floor(Math.random()*peserta.length);
+  const winner = peserta[idx];
+  nameDisplay.textContent = winner.nama;
+  nameDisplay.classList.remove('spinning');
+  nameDisplay.classList.add('winner');
+  spark();
+
+  // hapus dari list lokal
+  peserta.splice(idx,1);
+  pemenangKe += 1;
+
+  const li = document.createElement('li');
+  li.innerHTML = `<span><span class="no">#${pemenangKe}</span>${winner.nama}</span>`;
+  winnersList.prepend(li);
+
+  updateCounter();
+
+  // tandai sebagai pemenang di spreadsheet
+  try{
+    const res = await fetch(`${API_URL}?action=setWinner&row=${winner.row}`);
+    const json = await res.json();
+    if(json.status !== 'ok') throw new Error(json.message || 'Gagal menyimpan');
+  }catch(err){
+    setStatus('Pemenang dipilih, tapi gagal disimpan ke spreadsheet: ' + err.message, true);
+  }
+
+  isSpinning = false;
+  btn.disabled = peserta.length === 0;
+}
+
+btn.addEventListener('click', mulaiUndian);
+muatPeserta();
+</script>
+</body>
+</html>
