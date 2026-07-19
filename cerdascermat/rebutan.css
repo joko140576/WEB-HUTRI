@@ -1,0 +1,73 @@
+/* =========================================================
+   BABAK 2 — PERTANYAAN REBUTAN
+   (builds on top of style.css + grup.css question-card styles)
+   ========================================================= */
+
+.rebutan-shell{
+  max-width: 900px;
+  margin: 0 auto;
+  padding: 44px 24px 100px;
+}
+
+.rebutan-intro{
+  text-align:center;
+  color: var(--ink-soft);
+  font-size:14px;
+  margin: 0 0 34px;
+  max-width: 60ch;
+  margin-inline:auto;
+}
+.rebutan-intro strong{ color: var(--ink); }
+
+.rebutan-counter{
+  display:flex;
+  justify-content:center;
+  margin-bottom: 30px;
+}
+.rebutan-counter span{
+  background: var(--white);
+  border: 2px solid var(--cream-2);
+  color: var(--red-bright);
+  font-weight:800;
+  font-size:14px;
+  padding: 10px 22px;
+  border-radius:999px;
+  box-shadow: var(--shadow-card);
+}
+
+#rebutan-list{
+  display:flex;
+  flex-direction:column;
+  gap:20px;
+}
+
+/* single reveal-answer button */
+.btn-reveal{
+  background: var(--ink);
+  color: var(--white);
+}
+.btn-reveal:hover{ background: var(--red-bright); }
+.btn-reveal.revealed{
+  background: var(--group-a);
+}
+.btn-reveal.revealed:hover{ background: var(--group-a); filter:brightness(1.08); }
+
+.answer-reveal{
+  display:none;
+  margin-top:16px;
+  font-size:15px;
+  background: var(--group-a-soft);
+  border: 1.5px solid var(--group-a);
+  border-radius: var(--radius-sm);
+  padding: 14px 18px;
+  color: #1D4A34;
+  align-items:center;
+  gap:10px;
+}
+.answer-reveal.show{ display:flex; }
+.answer-reveal svg{ width:20px; height:20px; stroke:#1D4A34; flex-shrink:0; }
+.answer-reveal strong{ font-family: var(--font-display); font-weight:400; letter-spacing:.01em; }
+
+@media (max-width: 560px){
+  .rebutan-shell{ padding: 34px 18px 90px; }
+}

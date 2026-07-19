@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Babak 1: Pertanyaan Grup • HUT RI ke-81 • RT 003/RW 09</title>
+<link rel="stylesheet" href="style.css">
+<link rel="stylesheet" href="grup.css">
+</head>
+<body>
+
+<header class="page-header">
+  <div class="batik-wash"></div>
+  <a href="cerdas-cermat.html" class="back-link">
+    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"/></svg>
+    Kembali
+  </a>
+  <div class="page-header-content">
+    <p class="page-eyebrow">✦ Babak 1 ✦</p>
+    <h1 class="page-title">Pertanyaan Masing-Masing Grup</h1>
+    <p class="page-subtitle">Setara SD Kelas 4–6 &nbsp;•&nbsp; 10 soal isian pendek per grup</p>
+  </div>
+</header>
+
+<main class="group-shell">
+  <div class="group-tabs" id="group-tabs"></div>
+  <p class="group-intro">Pilih grup untuk menampilkan paket soalnya. Gunakan <strong>Call Friend</strong> atau <strong>Pilihan Ganda</strong> sebagai bala bantuan bila diperlukan.</p>
+
+  <div id="question-list"></div>
+</main>
+
+<footer class="page2-footer">
+  Semoga kompetisi berjalan meriah &amp; penuh sportivitas &nbsp;•&nbsp; <strong>Panitia HUT RI ke-81, RT 003/RW 09</strong>
+</footer>
+
+<!-- Call Friend Modal -->
+<div class="modal-overlay" id="callfriend-modal">
+  <div class="modal-box">
+    <div class="modal-icon">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
+    </div>
+    <h3 class="modal-title">Bantuan Call Friend</h3>
+    <p class="modal-desc">Silakan minta temanmu untuk membantu menjawab pertanyaan ini. Bantuan ini hanya dapat digunakan satu kali untuk setiap soal.</p>
+    <button class="modal-close" onclick="closeCallFriend()">Mengerti</button>
+  </div>
+</div>
+
+<script src="script.js"></script>
+<script src="grup.js"></script>
+</body>
+</html>
