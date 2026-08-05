@@ -158,7 +158,7 @@
 
 <div class="controls">
   <button class="action" id="answerBtn">🔍 Lihat Jawaban</button>
-  <button class="action" id="resetBtn">🔄 Acak Ulang</button>
+  <button class="action" id="resetBtn">🔄 Mulai Ulang</button>
 </div>
 
 <div id="status">Klik salah satu kotak untuk memutar cuplikan lagu, lalu coba tebak judulnya!</div>
@@ -176,31 +176,38 @@
 
 <script>
   // Data lagu bertema HUT Kemerdekaan RI ke-81
+  // Urutan kotak TETAP sesuai urutan di sini (kotak 1 = lagu index 0, dst.)
   // Ganti "audio" dengan link mp3 asli (lokal/legal) jika tersedia.
   const songs = [
-    {
-      title: "Hari Merdeka (17 Agustus Tahun 45)",
-      composer: "H. Mutahar",
-      audio: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3"
-    },
-    {
-      title: "Indonesia Raya",
-      composer: "W.R. Supratman",
-      audio: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-2.mp3"
-    },
+
     {
       title: "Bangun Pemudi Pemuda",
       composer: "Alfred Simanjuntak",
-      audio: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-3.mp3"
+      audio: "lagu1.mp3"
     },
+
     {
-      title: "Berkibarlah Benderaku",
-      composer: "Ibu Sud",
-      audio: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-4.mp3"
+      title: "Hari Merdeka (17 Agustus Tahun 45)",
+      composer: "H. Mutahar",
+      audio: "lagu2.mp3"
+    },
+
+    {
+      title: "Garuda pancasila",
+      composer: "Sudharnoto",
+      audio: "lagu3.mp3"
+    },
+
+  
+    {
+      title: "Dari sabang sampai merauke",
+      composer: "R. Suharjo",
+      audio: "lagu4.mp3"
     }
   ];
 
-  let order = [];
+  // Urutan kotak sekarang tetap (tidak diacak) — kotak N selalu berisi songs[N-1]
+  const order = songs;
   let activeIndex = null;
   let revealed = false;
 
@@ -210,17 +217,7 @@
   const resetBtn = document.getElementById('resetBtn');
   const player = document.getElementById('player');
 
-  function shuffle(arr) {
-    const a = arr.slice();
-    for (let i = a.length - 1; i > 0; i--) {
-      const j = Math.floor(Math.random() * (i + 1));
-      [a[i], a[j]] = [a[j], a[i]];
-    }
-    return a;
-  }
-
   function buildBoxes() {
-    order = shuffle(songs);
     activeIndex = null;
     revealed = false;
     boxesEl.innerHTML = '';
