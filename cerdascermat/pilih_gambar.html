@@ -165,6 +165,19 @@ h1{
     display:block;
 }
 
+/* Ikon kecil "perbesar" muncul di kotak yang sudah terbuka, sbg petunjuk klik utk lihat penuh */
+.belakang .zoom-hint{
+    position:absolute;
+    bottom:8px;
+    right:10px;
+    background:rgba(0,0,0,0.55);
+    color:var(--emas);
+    font-size:13px;
+    padding:4px 8px;
+    border-radius:8px;
+    pointer-events:none;
+}
+
 .kotak:hover{
     filter:brightness(1.08);
 }
@@ -231,6 +244,68 @@ footer{
     text-align:center;
 }
 
+/* ===== Lightbox / tampilan gambar penuh ===== */
+#lightbox{
+    display:none;
+    position:fixed;
+    inset:0;
+    background:rgba(0,0,0,0.85);
+    backdrop-filter:blur(3px);
+    z-index:1000;
+    align-items:center;
+    justify-content:center;
+    padding:30px;
+    cursor:zoom-out;
+    animation:fadeIn 0.25s ease;
+}
+
+#lightbox.tampil{
+    display:flex;
+}
+
+@keyframes fadeIn{
+    from{ opacity:0; }
+    to{ opacity:1; }
+}
+
+#lightbox img{
+    max-width:min(90vw,600px);
+    max-height:85vh;
+    border-radius:18px;
+    border:4px solid var(--emas);
+    box-shadow:0 20px 50px rgba(0,0,0,0.6);
+    cursor:default;
+    animation:popIn 0.25s ease;
+}
+
+@keyframes popIn{
+    from{ transform:scale(0.85); opacity:0; }
+    to{ transform:scale(1); opacity:1; }
+}
+
+#lightbox-tutup{
+    position:absolute;
+    top:22px;
+    right:28px;
+    width:42px;
+    height:42px;
+    border-radius:50%;
+    background:rgba(255,255,255,0.12);
+    border:1px solid rgba(255,210,76,0.5);
+    color:var(--emas);
+    font-size:22px;
+    font-weight:700;
+    cursor:pointer;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    line-height:1;
+}
+
+#lightbox-tutup:hover{
+    background:rgba(255,255,255,0.22);
+}
+
 @media(max-width:600px){
     .kotak{
         width:150px;
@@ -257,31 +332,31 @@ footer{
 
 <div class="container">
 
-    <div class="kotak" onclick="bukaKotak(this, 0)">
+    <div class="kotak" data-index="0">
         <div class="sisi depan"><span class="nomor">01</span></div>
         <div class="sisi belakang">
-            <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/d/d9/Presiden_Sukarno.jpg/330px-Presiden_Sukarno.jpg" alt="Pahlawan 1">
+            <img src="diponegoro.png" alt="Pahlawan 1">
         </div>
     </div>
 
-    <div class="kotak" onclick="bukaKotak(this, 1)">
+    <div class="kotak" data-index="1">
         <div class="sisi depan"><span class="nomor">02</span></div>
         <div class="sisi belakang">
-            <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/0/02/Bung_Hatta-2.jpg/330px-Bung_Hatta-2.jpg" alt="Pahlawan 2">
+            <img src="Cut Nyak Dien.png" alt="Pahlawan 2">
         </div>
     </div>
 
-    <div class="kotak" onclick="bukaKotak(this, 2)">
+    <div class="kotak" data-index="2">
         <div class="sisi depan"><span class="nomor">03</span></div>
         <div class="sisi belakang">
-            <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/9/97/Jenderal_Sudirman.jpg/330px-Jenderal_Sudirman.jpg" alt="Pahlawan 3">
+            <img src="Sultan Hasanudin.png" alt="Pahlawan 3">
         </div>
     </div>
 
-    <div class="kotak" onclick="bukaKotak(this, 3)">
+    <div class="kotak" data-index="3">
         <div class="sisi depan"><span class="nomor">04</span></div>
         <div class="sisi belakang">
-            <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/2/2a/Raden_Ayu_Kartini.jpg/330px-Raden_Ayu_Kartini.jpg" alt="Pahlawan 4">
+            <img src="kapiten Patimura.png" alt="Pahlawan 4">
         </div>
     </div>
 
@@ -291,27 +366,48 @@ footer{
     Siapakah nama pahlawan seperti yang ditunjukkan pada foto tersebut?
 </div>
 
-<button id="tombol-jawaban" onclick="tampilkanJawaban()" disabled>Lihat Jawaban</button>
+<button id="tombol-jawaban" disabled>Lihat Jawaban</button>
 
 <div id="jawaban"></div>
 
-<footer>Klik salah satu kotak untuk membukanya, lalu tekan tombol jawaban.</footer>
+<footer>Klik salah satu kotak untuk membukanya. Klik lagi gambarnya untuk melihat versi penuh, lalu tekan tombol jawaban.</footer>
+
+<!-- Lightbox untuk menampilkan gambar penuh di tengah layar -->
+<div id="lightbox">
+    <div id="lightbox-tutup">&times;</div>
+    <img id="lightbox-img" src="" alt="Gambar penuh">
+</div>
 
 <script>
 
 const namaPahlawan = [
-    "Ir. Soekarno",
-    "Drs. Mohammad Hatta",
-    "Jenderal Soedirman",
-    "R.A. Kartini"
+    "Diponegoro",
+    "Cut Nyak Dien",
+    "Sultan Hasanuddin",
+    "Kapiten Patimura"
 ];
 
+const daftarKotak = document.querySelectorAll(".kotak");
 let kotakAktif = null;
+
+daftarKotak.forEach(kotak=>{
+    const index = parseInt(kotak.dataset.index);
+
+    kotak.addEventListener("click", (e)=>{
+        if(kotak.classList.contains("terbuka")){
+            // Kotak sudah terbuka -> klik gambar menampilkan versi penuh di tengah
+            bukaLightbox(index);
+        } else {
+            // Kotak masih tertutup -> buka kotaknya (animasi flip)
+            bukaKotak(kotak, index);
+        }
+    });
+});
 
 function bukaKotak(kotakDipilih, index){
 
     // Tutup semua kotak
-    document.querySelectorAll(".kotak").forEach(kotak=>{
+    daftarKotak.forEach(kotak=>{
         kotak.classList.remove("terbuka");
     });
 
@@ -330,6 +426,43 @@ function tampilkanJawaban(){
     elJawaban.textContent = "🏅 " + namaPahlawan[kotakAktif];
     elJawaban.style.display = "block";
 }
+document.getElementById("tombol-jawaban").addEventListener("click", tampilkanJawaban);
+
+// ===== Logika Lightbox =====
+const lightbox = document.getElementById("lightbox");
+const lightboxImg = document.getElementById("lightbox-img");
+const lightboxTutup = document.getElementById("lightbox-tutup");
+
+function bukaLightbox(index){
+    const kotak = document.querySelector(`.kotak[data-index="${index}"]`);
+    const srcGambar = kotak.querySelector(".belakang img").src;
+    lightboxImg.src = srcGambar;
+    lightboxImg.alt = namaPahlawan[index];
+    lightbox.classList.add("tampil");
+}
+
+function tutupLightbox(){
+    lightbox.classList.remove("tampil");
+}
+
+lightboxTutup.addEventListener("click", (e)=>{
+    e.stopPropagation();
+    tutupLightbox();
+});
+
+// Klik area gelap di luar gambar juga menutup lightbox
+lightbox.addEventListener("click", (e)=>{
+    if(e.target === lightbox){
+        tutupLightbox();
+    }
+});
+
+// Tombol Escape menutup lightbox
+document.addEventListener("keydown", (e)=>{
+    if(e.key === "Escape"){
+        tutupLightbox();
+    }
+});
 
 </script>
 
