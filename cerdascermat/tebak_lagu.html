@@ -1,0 +1,283 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<title>Tebak Lagu - HUT Kemerdekaan RI ke-81</title>
+<style>
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    font-family: 'Segoe UI', Arial, sans-serif;
+    background: linear-gradient(135deg, #b71c1c 0%, #d32f2f 40%, #ffffff 40%, #ffffff 100%);
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 30px 15px;
+  }
+  h1 {
+    color: #ffffff;
+    text-shadow: 2px 2px 6px rgba(0,0,0,0.4);
+    text-align: center;
+    margin-bottom: 4px;
+    font-size: 28px;
+  }
+  .subtitle {
+    color: #fff8e1;
+    text-shadow: 1px 1px 4px rgba(0,0,0,0.4);
+    margin-bottom: 30px;
+    font-weight: bold;
+  }
+  .badge {
+    background: #fff;
+    color: #b71c1c;
+    border-radius: 20px;
+    padding: 6px 18px;
+    font-weight: bold;
+    margin-bottom: 25px;
+    box-shadow: 0 3px 8px rgba(0,0,0,0.25);
+  }
+  .question {
+    background: #ffffffee;
+    color: #b71c1c;
+    font-size: 20px;
+    font-weight: bold;
+    padding: 14px 26px;
+    border-radius: 12px;
+    margin-bottom: 25px;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+  }
+  .boxes {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 22px;
+    margin-bottom: 30px;
+  }
+  .box {
+    width: 130px;
+    height: 130px;
+    background: #ffffff;
+    border: 4px solid #b71c1c;
+    border-radius: 16px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: transform 0.2s, box-shadow 0.2s;
+    box-shadow: 0 5px 12px rgba(0,0,0,0.25);
+    user-select: none;
+    position: relative;
+  }
+  .box:hover {
+    transform: translateY(-6px) scale(1.04);
+    box-shadow: 0 10px 18px rgba(0,0,0,0.3);
+  }
+  .box.active {
+    background: #ffe082;
+    border-color: #f57f17;
+  }
+  .box .num {
+    font-size: 38px;
+    font-weight: 900;
+    color: #b71c1c;
+  }
+  .box .icon {
+    font-size: 26px;
+    margin-top: 4px;
+  }
+  .box .label {
+    font-size: 12px;
+    color: #555;
+    margin-top: 4px;
+  }
+  .box.revealed .label {
+    font-weight: bold;
+    color: #b71c1c;
+  }
+  .controls {
+    display: flex;
+    gap: 16px;
+    flex-wrap: wrap;
+    justify-content: center;
+    margin-bottom: 20px;
+  }
+  button.action {
+    background: #ffffff;
+    color: #b71c1c;
+    border: none;
+    padding: 12px 26px;
+    border-radius: 30px;
+    font-size: 16px;
+    font-weight: bold;
+    cursor: pointer;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.25);
+    transition: transform 0.15s;
+  }
+  button.action:hover { transform: translateY(-3px); }
+  button.action:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+  }
+  #status {
+    color: darkblue;
+    font-family: 'Poppins', sans-serif;
+    font-size: 24px;
+    min-height: 22px;
+    text-align: center;
+    max-width: 480px;
+  }
+  .note {
+    margin-top: 20px;
+    background: #ffffffcc;
+    color: #444;
+    font-size: 12px;
+    padding: 10px 16px;
+    border-radius: 10px;
+    max-width: 500px;
+    text-align: center;
+  }
+  .footer {
+    margin-top: 20px;
+    color: #fff8e1;
+    font-size: 13px;
+    text-align: center;
+  }
+</style>
+</head>
+<body>
+
+<div class="badge">🇮🇩 DIRGAHAYU REPUBLIK INDONESIA 🇮🇩</div>
+<h1>Tebak Lagu Perjuangan</h1>
+<div class="subtitle">Spesial HUT Kemerdekaan RI ke-81</div>
+
+<div class="question">🎵 Tebak lagu di dalam kotak? 🎵</div>
+
+<div class="boxes" id="boxes"></div>
+
+<div class="controls">
+  <button class="action" id="answerBtn">🔍 Lihat Jawaban</button>
+  <button class="action" id="resetBtn">🔄 Acak Ulang</button>
+</div>
+
+<div id="status">Klik salah satu kotak untuk memutar cuplikan lagu, lalu coba tebak judulnya!</div>
+
+<div class="note">
+  ⚠️ Catatan: tombol audio di kotak menggunakan file mp3 contoh (sample) sebagai placeholder pemutar suara.
+  Untuk lagu nasional asli (Indonesia Raya, Hari Merdeka, 17 Agustus, Bangun Pemudi Pemuda), silakan ganti
+  URL di variabel <code>songs[].audio</code> pada kode dengan file mp3 yang kamu miliki/unduh secara legal,
+  karena lagu-lagu tersebut tidak dapat saya ambil otomatis dari internet.
+</div>
+
+<div class="footer">Merdeka! Merdeka! Merdeka! 🎉</div>
+
+<audio id="player"></audio>
+
+<script>
+  // Data lagu bertema HUT Kemerdekaan RI ke-81
+  // Ganti "audio" dengan link mp3 asli (lokal/legal) jika tersedia.
+  const songs = [
+    {
+      title: "Hari Merdeka (17 Agustus Tahun 45)",
+      composer: "H. Mutahar",
+      audio: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3"
+    },
+    {
+      title: "Indonesia Raya",
+      composer: "W.R. Supratman",
+      audio: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-2.mp3"
+    },
+    {
+      title: "Bangun Pemudi Pemuda",
+      composer: "Alfred Simanjuntak",
+      audio: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-3.mp3"
+    },
+    {
+      title: "Berkibarlah Benderaku",
+      composer: "Ibu Sud",
+      audio: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-4.mp3"
+    }
+  ];
+
+  let order = [];
+  let activeIndex = null;
+  let revealed = false;
+
+  const boxesEl = document.getElementById('boxes');
+  const statusEl = document.getElementById('status');
+  const answerBtn = document.getElementById('answerBtn');
+  const resetBtn = document.getElementById('resetBtn');
+  const player = document.getElementById('player');
+
+  function shuffle(arr) {
+    const a = arr.slice();
+    for (let i = a.length - 1; i > 0; i--) {
+      const j = Math.floor(Math.random() * (i + 1));
+      [a[i], a[j]] = [a[j], a[i]];
+    }
+    return a;
+  }
+
+  function buildBoxes() {
+    order = shuffle(songs);
+    activeIndex = null;
+    revealed = false;
+    boxesEl.innerHTML = '';
+    statusEl.textContent = 'Klik salah satu kotak untuk memutar cuplikan lagu, lalu coba tebak judulnya!';
+    answerBtn.disabled = true;
+    player.pause();
+    player.currentTime = 0;
+
+    order.forEach((song, idx) => {
+      const box = document.createElement('div');
+      box.className = 'box';
+      box.dataset.idx = idx;
+      box.innerHTML = `
+        <div class="num">${idx + 1}</div>
+        <div class="icon">🎶</div>
+        <div class="label">Klik untuk putar</div>
+      `;
+      box.addEventListener('click', () => playSong(idx, box));
+      boxesEl.appendChild(box);
+    });
+  }
+
+  function playSong(idx, box) {
+    document.querySelectorAll('.box').forEach(b => b.classList.remove('active'));
+    box.classList.add('active');
+    activeIndex = idx;
+    revealed = false;
+    answerBtn.disabled = false;
+    answerBtn.textContent = '🔍 Lihat Jawaban';
+
+    document.querySelectorAll('.box').forEach(b => {
+      b.classList.remove('revealed');
+      b.querySelector('.label').textContent = (parseInt(b.dataset.idx) === idx) ? 'Sedang diputar...' : 'Klik untuk putar';
+    });
+
+    player.src = order[idx].audio;
+    player.play().catch(() => {
+      statusEl.textContent = 'Audio tidak bisa diputar otomatis. Klik tombol play pada pemutar atau coba lagi.';
+    });
+
+    statusEl.textContent = `Memutar lagu di kotak ${idx + 1}... Coba tebak judulnya, lalu klik "Lihat Jawaban".`;
+  }
+
+  answerBtn.addEventListener('click', () => {
+    if (activeIndex === null) return;
+    const song = order[activeIndex];
+    const box = document.querySelector(`.box[data-idx="${activeIndex}"]`);
+    box.classList.add('revealed');
+    box.querySelector('.label').textContent = song.title;
+    statusEl.textContent = `✅ Jawaban kotak ${activeIndex + 1}: "${song.title}" — Cipt. ${song.composer}`;
+    revealed = true;
+  });
+
+  resetBtn.addEventListener('click', buildBoxes);
+
+  buildBoxes();
+</script>
+
+</body>
+</html>
